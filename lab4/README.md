@@ -35,7 +35,7 @@ Train a CNN classifier on CIFAR-10 for subsequent experiments:
 python experiments/train_classifier.py --epochs 100
 ```
 
-**Expected**: ~90-92% test accuracy
+**Test accuracy**: 83.93%
 
 This creates `checkpoints/classifier_baseline/best.pt` used in all experiments.
 
@@ -43,9 +43,87 @@ This creates `checkpoints/classifier_baseline/best.pt` used in all experiments.
 
 ### Exercise 1: OOD Detection
 
+Exercise 1 implements **Out-of-Distribution (OOD) detection**: identifying samples that don't belong to the training distribution. We compare three scoring methods on two OOD datasets.
+
 **Goal**: Detect out-of-distribution samples using different scoring methods.
 
-#### Exercise 1.1: OOD Detection Pipeline
+### OOD Detection Results Comparison
+
+### OOD Dataset: FakeData (Random Noise)
+| Method | AUROC | FPR@95 | AUPR | Accuracy |
+|:---|:---|:---|:---|:---|
+| max_softmax | 0.6779 | 0.9989 | 0.7875 | 72.80% |
+| energy | 0.7038 | 0.9999 | 0.8117 | 75.58% |
+| max_logit | 0.6990 | 0.9999 | 0.8078 | 75.22% |
+
+### OOD Dataset: CIFAR-100 Subset (People Classes)
+| Method | AUROC | FPR@95 | AUPR | Accuracy |
+|:---|:---|:---|:---|:---|
+| max_softmax | 0.7646 | 0.8520 | 0.9849 | 95.24% |
+| max_logit | 0.7418 | 0.8580 | 0.9828 | 95.24% |
+| energy | 0.7356 | 0.8640 | 0.9824 | 95.24% |
+
+---
+
+## Visualization
+
+
+
+ **Fake Dataset**
+<div>
+  <img src="plots/lab4/score_dist_fakedata_max_softmax.png" alt="Img1" width="450">
+  <img src="plots/lab4/roc_pr_fakedata_max_softmax.png" alt="Img1" width="450">
+</div>
+
+**CIFAR-100 Subset**
+<div>
+  <img src="plots/lab4/score_dist_cifar100_subset_max_softmax.png" alt="Img1" width="450">
+  <img src="plots/lab4/roc_pr_cifar100_subset_max_softmax.png" alt="Img1" width="450">
+</div>
+
+Each experiment generates plots in `./plots/lab4`:
+
+### Key Findings
+
+### 1. CIFAR-100 Subset Performance
+
+**Best Method**: Max Softmax (AUROC: 0.7646)
+
+| Metric | max_softmax | max_logit | energy |
+|--------|-------------|-----------|--------|
+| **AUROC** | **0.7646** | 0.7418 | 0.7356 |
+| **FPR@95** | **0.8520**  | 0.8580 | 0.8640 |
+| **AUPR** | **0.9849**  | 0.9828 | 0.9824 |
+| **Accuracy** | 95.24% | 95.24% | 95.24% |
+
+**Analysis**:
+- All methods achieve excellent **95.24% accuracy** with optimal threshold
+- Max softmax slightly outperforms others (AUROC: 0.76 vs 0.74)
+- High AUPR (0.98+) indicates good precision-recall trade-off
+- **Moderate FPR@95**: ~85% false positives at 95% TPR
+
+---
+
+### 2. FakeData Performance 📉
+
+**Best Method**: Energy (AUROC: 0.7038) - but all methods struggle!
+
+| Metric | max_softmax | max_logit | energy |
+|--------|-------------|-----------|--------|
+| **AUROC** | 0.6779 | 0.6990 | **0.7038** 🏆 |
+| **FPR@95** | 0.9989 | 0.9999 | 0.9999 |
+| **AUPR** | 0.7875 | 0.8078 | **0.8117** 🏆 |
+| **Accuracy** | 72.80% | 75.22% | **75.58%** 🏆 |
+
+**Analysis**:
+- **Poor performance across all methods** (AUROC: 0.68-0.70)
+- Nearly **100% FPR@95**: Model assigns high confidence to random noise!
+- Energy marginally better (AUROC: 0.70 vs 0.68)
+- Only **75% accuracy** (vs 95% on CIFAR-100 subset)
+
+---
+
+#### OOD Detection Pipeline
 
 ```bash
 # Using max softmax score
@@ -64,7 +142,7 @@ python experiments/experiment_ood_detection.py \
     --score-method energy
 ```
 
-#### Exercise 1.2: OOD Metrics
+#### OOD Metrics
 
 The script automatically computes and displays:
 - **AUROC**: Area Under ROC Curve
@@ -86,6 +164,7 @@ python experiments/experiment_ood_detection.py --compare
 ---
 
 ### Exercise 2: Adversarial Attacks
+Exercise 2 focuses on **adversarial attacks**: generating imperceptible perturbations that fool neural networks. This experiment compares three attack methods (FGSM, BIM, PGD) across different perturbation budgets.
 
 **Goal**: Generate adversarial examples and evaluate model robustness.
 
@@ -94,6 +173,65 @@ python experiments/experiment_ood_detection.py --compare
 1. **FGSM** (Fast Gradient Sign Method) - One-step attack
 2. **PGD** (Projected Gradient Descent) - Iterative attack
 3. **BIM** (Basic Iterative Method) - PGD without random start
+
+
+### Attack Comparison Table
+
+### Method: FGSM (Fast Gradient Sign Method)
+| Epsilon | Clean Acc | Adv Acc | Attack Success |
+|:---|:---|:---|:---|
+| 0.007 | 85.10% | 69.40% | 16.40% |
+| 0.015 | 85.10% | 51.00% | 35.10% |
+| 0.031 | 85.10% | 25.00% | 61.60% |
+
+---
+
+### Method: BIM (Basic Iterative Method)
+| Epsilon | Clean Acc | Adv Acc | Attack Success |
+|:---|:---|:---|:---|
+| 0.007 | 85.10% | 68.60% | 17.40% |
+| 0.015 | 85.10% | 46.00% | 40.60% |
+| 0.031 | 85.10% | 12.60% | 75.00% |
+
+---
+
+### Method: PGD (Projected Gradient Descent)
+| Epsilon | Clean Acc | Adv Acc | Attack Success |
+|:---|:---|:---|:---|
+| 0.007 | 85.10% | 68.60% | 17.40% |
+| 0.015 | 85.10% | 46.00% | 41.00% |
+| 0.031 | 85.10% | 11.30% | 76.10% |
+
+---
+
+### Key Findings
+
+### 1. Attack Strength Hierarchy
+
+**PGD > BIM > FGSM** (at higher epsilon values)
+
+| Epsilon | FGSM Success | BIM Success | PGD Success | Winner |
+|---------|--------------|-------------|-------------|--------|
+| 0.007 | 16.40% | 17.40% | 17.40% | BIM/PGD (tied) |
+| 0.015 | 35.10% | 40.60% | 41.00% | **PGD** |
+| 0.031 | 61.60% | 75.00% | 76.10% | **PGD** |
+
+**Analysis**: 
+- At low epsilon (0.007), all methods perform similarly
+- As epsilon increases, iterative methods (BIM/PGD) significantly outperform FGSM
+- PGD is consistently the strongest attack, especially at ε=0.031 (76.1% success!)
+
+### 2. Epsilon Impact
+
+**Attack success increases dramatically with perturbation budget:**
+
+| Method | ε=0.007 | ε=0.015 | ε=0.031 | Increase (0.007→0.031) |
+|--------|---------|---------|---------|------------------------|
+| FGSM | 16.4% | 35.1% | 61.6% | **+45.2%** |
+| BIM | 17.4% | 40.6% | 75.0% | **+57.6%** |
+| PGD | 17.4% | 41.0% | 76.1% | **+58.7%** |
+
+**Key Insight**: Doubling epsilon from 0.015 to 0.031 nearly doubles attack success for all methods!
 
 #### Run Attacks
 
@@ -130,11 +268,6 @@ python experiments/train_robust.py \
     --epsilon 0.031
 ```
 
-**Trade-off:**
-- Higher adversarial ratio → Better robustness, slightly lower clean accuracy
-- Training uses PGD-7 (7 steps) for efficiency
-
----
 
 ### Optional: Autoencoder for OOD Detection
 
@@ -165,45 +298,5 @@ python experiments/experiment_ood_detection.py \
 **Note**: Requires autoencoder checkpoint at `checkpoints/autoencoder/best.pt`
 
 **Expected**: AUROC 0.80-0.85 (slightly worse than energy score but interpretable)
-
----
-
-## Complete Workflow
-
-```bash
-# 1. Train baseline classifier
-python experiments/train_classifier.py --epochs 100
-
-# 2. Test OOD detection
-python experiments/experiment_ood_detection.py --compare
-
-# 3. Test adversarial robustness
-python experiments/experiment_adversarial.py --compare
-
-# 4. Train robust classifier
-python experiments/train_robust.py --epochs 100
-
-# 5. Re-test adversarial robustness
-python experiments/experiment_adversarial.py \
-    --checkpoint ./checkpoints/robust_classifier/best.pt \
-    --attack pgd
-
-# 6. (Optional) Train autoencoder
-python experiments/train_autoencoder.py --epochs 50
-
-# 7. (Optional) Test autoencoder OOD detection
-python experiments/experiment_ood_detection.py \
-    --score-method mse \
-    --ood-dataset fakedata
-```
----
-
-## Visualization Examples
-
-All experiments generate plots in `./plots/`:
-
-1. **OOD Detection**: Score histograms, ROC curves, PR curves
-2. **Adversarial**: Clean vs adversarial images, perturbation analysis
-3. **Training**: TensorBoard curves for loss/accuracy
 
 ---

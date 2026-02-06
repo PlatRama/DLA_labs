@@ -73,10 +73,6 @@ def run_cnn_experiment(
         use_wandb=False,
         log_every=50,
         save_every=10,
-        
-        # Early stopping
-        early_stopping=True,
-        early_stopping_patience=15
     )
     
     # Setup

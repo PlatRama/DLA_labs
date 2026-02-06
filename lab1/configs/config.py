@@ -24,11 +24,7 @@ class BaseConfig:
     log_dir: str = './logs'
     save_every: int = 5  # Save checkpoint every N epochs
     log_every: int = 50  # Log metrics every N batches
-    
-    # Early stopping
-    early_stopping: bool = True
-    early_stopping_patience: int = 5
-    
+
     # TensorBoard and W&B
     use_tensorboard: bool = True
     use_wandb: bool = False

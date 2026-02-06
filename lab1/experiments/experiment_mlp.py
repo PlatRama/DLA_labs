@@ -64,10 +64,6 @@ def run_mlp_experiment(
         use_wandb=False,
         log_every=50,
         save_every=5,
-        
-        # Early stopping
-        early_stopping=True,
-        early_stopping_patience=10
     )
     
     # Setup

@@ -4,12 +4,12 @@ from pathlib import Path
 import torch
 import torch.optim as optim
 
-from configs.config import BaseConfig
-from models.ood_models import SimpleCNN
-from utils.data_utils import create_id_dataloaders
-from utils.trainer import ClassifierTrainer
-from logger import setup_logger
-from misc import set_seed, get_device
+from lab4.configs.config import BaseConfig
+from lab4.models.ood_models import SimpleCNN
+from lab4.utils.data_utils import create_id_dataloaders
+from lab4.utils.trainer import ClassifierTrainer
+from utils_for_all.logger import setup_logger
+from utils_for_all.misc import set_seed, get_device
 
 
 def train_classifier(
@@ -54,11 +54,7 @@ def train_classifier(
         # Logging
         use_tensorboard=True,
         use_wandb=False,
-        log_every=100,
-        
-        # Early stopping
-        early_stopping=True,
-        early_stopping_patience=20,
+        log_every=20,
         
         # Device
         device='cuda' if torch.cuda.is_available() else 'cpu',

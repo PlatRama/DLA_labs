@@ -25,10 +25,6 @@ class BaseConfig:
     save_every: int = 5
     log_every: int = 50
     
-    # Early stopping
-    early_stopping: bool = True
-    early_stopping_patience: int = 10
-    
     # Logging
     use_tensorboard: bool = True
     use_wandb: bool = False

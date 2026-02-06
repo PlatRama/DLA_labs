@@ -284,12 +284,6 @@ class SentimentTrainer:
                 metrics=all_metrics,
                 is_scheduled=False
             )
-            
-            # Early stopping
-            if self.config.early_stopping:
-                if self.early_stop_counter >= self.config.early_stopping_patience:
-                    logger.info(f"\nEarly stopping at epoch {epoch + 1}")
-                    break
         
         # Load best model and test
         logger.info("\n" + "=" * 80)
