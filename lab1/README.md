@@ -64,7 +64,6 @@ By default, it trains for 10 epochs.
 
 ### How to run 
 ```bash
-cd lab1_rewrite
 python experiments/experiment_mlp.py
 ```
 
