@@ -250,6 +250,6 @@ if __name__ == "__main__":
         # Compare with and without residual connections
         compare_cnn_with_residual()
     
-    #if args.experiment == 'teacher':
+    if args.experiment == 'teacher':
         # Train teacher model
-        #train_teacher_model()
+        train_teacher_model()

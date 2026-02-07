@@ -146,6 +146,26 @@ Distill knowledge from a large teacher model into a smaller student model.
 - Train student with distillation (soft + hard labels)
 - Compare results
 
+| Name           | blocks |  params | Conv layers |
+|:---------------|:------:|--------:|:-----------:|
+| Teacher        |   4    |   11.8M |      8      |
+| Student        |   3    | 700.46K |      6      |
+
+
+To train the student, the following procedure was followed:
+* A dataset was constructed containing the probability distributions predicted by the teacher for each training image, to improve efficiency.
+* A combination of cross-entropy loss (on the hard labels) and KL divergence loss (on the soft labels from the teacher) was employed.
+
+
+<div>
+  <img src="plots/lab1/distillation_plots/loss.png" alt="Img1" width="320">
+  <img src="plots/lab1/distillation_plots/val_loss.png" alt="Img1" width="320">
+  <img src="plots/lab1/distillation_plots/accuracy.png" alt="Img1" width="320">
+</div>
+
+
+As shown in the graphs, after distillation the student is able to achieve better performance compared to its non-distilled version.
+
 
 
 ### How to run

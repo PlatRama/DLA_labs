@@ -113,7 +113,7 @@ def run_full_finetuning(
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
-        tokenizer=tokenizer,
+        #tokenizer=tokenizer,
         data_collator=data_collator,
         compute_metrics=compute_metrics
     )
@@ -243,7 +243,6 @@ def run_lora_finetuning(
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
-        tokenizer=tokenizer,
         data_collator=data_collator,
         compute_metrics=compute_metrics
     )

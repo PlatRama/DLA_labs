@@ -25,7 +25,73 @@ lab3_rewrite/
 ```
 </details>
 
-## Exercises Overview
+## Dataset
+
+- Name: Rotten Tomatoes (via HuggingFace Datasets)
+- Size: ~10,662 sentences
+- Classes: Binary sentiment classification
+    - 0 → Negative
+    - 1 → Positive
+
+### Dataset Split & Features Shape
+
+| Split | Number of Samples | Feature Dimension | Shape |
+| :--- | :--- | :--- | :--- |
+| **Train** | 8530 | 768 | (8530, 768) |
+| **Validation** | 1066 | 768 | (1066, 768) |
+| **Test** | 1066 | 768 | (1066, 768) |
+
+
+##  Stable Baseline with DistilBERT + SVM
+
+I first build a stable baseline by using DistilBERT as a frozen feature extractor and training a Linear SVM classifier on top.
+
+
+### Implementation details 
+
+| Component             | Description                                                                          |
+|-----------------------|--------------------------------------------------------------------------------------|
+| **Model**             | [distilbert-base-uncased](https://huggingface.co/distilbert/distilbert-base-uncased) |
+| **Feature Extractor** | Use `[CLS]` embedding from `last_hidden_state[:, 0, :]`                              |
+| **Classifier**        | Linear SVM (`LinearSVC` from scikit-learn)                                           |
+| **Batch Size**        | 64 (for feature extraction)                                                          |
+| **Training**          | Only SVM is trained, DistilBERT remains frozen                                       |
+| **Evaluation**        | Accuracy on val and test                                                             |
+
+
+## Full Fine-tuning & LoRA-efficient Fine-tuning 
+I also implemented full fine-tuning of DistilBERT and LoRA-efficient fine-tuning for comparison.
+
+### model details 
+| Method           | Trainable Parameters | Total Parameters |
+|------------------|----------------------|------------------|
+| Full Fine-tuning | 68M (all)            | 68M              |
+| LoRA Fine-tuning | 739,586              | 68M              |
+
+
+### Training Setup
+
+| Parameter         | Value |
+|:------------------|:------|
+| **Batch size**    | 64    |
+| **Epochs**        | 10    |
+| **Optimizer**     | AdamW |
+| **Learning rate** | 1e-4  |
+| **Weight decay**  | 0.01  |
+| **LoRA r**        | 16    |
+| **LoRA alpha**    | 32    |
+| **LoRA dropout**  | 0.1   |
+
+
+### Results 
+| Method           | Validation Accuracy | Test Accuracy |
+|------------------|---------------------|---------------|
+| Base line SVM    | 82.22%              | 79,83%        |
+| Full Fine-tuning | 85.27%              | 83.86%        |
+| LoRA Fine-tuning | 82.74%              | 81.14%        |
+
+
+## How to run exercise
 
 ### Exercise 1: Sentiment Analysis (Warm-up)
 
@@ -67,8 +133,6 @@ python experiments/experiment_baseline.py --compare
 ```bash
 python experiments/experiment_finetuning.py --method full
 ```
-
-**Expected Results**: ~88-92% accuracy with full fine-tuning
 
 ### Exercise 3: Advanced Topics
 

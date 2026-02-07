@@ -50,18 +50,18 @@ Exercise 1 implements **Out-of-Distribution (OOD) detection**: identifying sampl
 ### OOD Detection Results Comparison
 
 ### OOD Dataset: FakeData (Random Noise)
-| Method | AUROC | FPR@95 | AUPR | Accuracy |
-|:---|:---|:---|:---|:---|
-| max_softmax | 0.6779 | 0.9989 | 0.7875 | 72.80% |
-| energy | 0.7038 | 0.9999 | 0.8117 | 75.58% |
-| max_logit | 0.6990 | 0.9999 | 0.8078 | 75.22% |
+| Method      | AUROC  | FPR@95 | AUPR   | Accuracy |
+|:------------|:-------|:-------|:-------|:---------|
+| max_softmax | 0.6779 | 0.9989 | 0.7875 | 72.80%   |
+| energy      | 0.7038 | 0.9999 | 0.8117 | 75.58%   |
+| max_logit   | 0.6990 | 0.9999 | 0.8078 | 75.22%   |
 
 ### OOD Dataset: CIFAR-100 Subset (People Classes)
-| Method | AUROC | FPR@95 | AUPR | Accuracy |
-|:---|:---|:---|:---|:---|
-| max_softmax | 0.7646 | 0.8520 | 0.9849 | 95.24% |
-| max_logit | 0.7418 | 0.8580 | 0.9828 | 95.24% |
-| energy | 0.7356 | 0.8640 | 0.9824 | 95.24% |
+| Method      | AUROC  | FPR@95 | AUPR   | Accuracy |
+|:------------|:-------|:-------|:-------|:---------|
+| max_softmax | 0.7646 | 0.8520 | 0.9849 | 95.24%   |
+| max_logit   | 0.7418 | 0.8580 | 0.9828 | 95.24%   |
+| energy      | 0.7356 | 0.8640 | 0.9824 | 95.24%   |
 
 ---
 
@@ -89,12 +89,12 @@ Each experiment generates plots in `./plots/lab4`:
 
 **Best Method**: Max Softmax (AUROC: 0.7646)
 
-| Metric | max_softmax | max_logit | energy |
-|--------|-------------|-----------|--------|
-| **AUROC** | **0.7646** | 0.7418 | 0.7356 |
-| **FPR@95** | **0.8520**  | 0.8580 | 0.8640 |
-| **AUPR** | **0.9849**  | 0.9828 | 0.9824 |
-| **Accuracy** | 95.24% | 95.24% | 95.24% |
+| Metric       | max_softmax | max_logit | energy |
+|--------------|-------------|-----------|--------|
+| **AUROC**    | **0.7646**  | 0.7418    | 0.7356 |
+| **FPR@95**   | **0.8520**  | 0.8580    | 0.8640 |
+| **AUPR**     | **0.9849**  | 0.9828    | 0.9824 |
+| **Accuracy** | 95.24%      | 95.24%    | 95.24% |
 
 **Analysis**:
 - All methods achieve excellent **95.24% accuracy** with optimal threshold
@@ -108,12 +108,12 @@ Each experiment generates plots in `./plots/lab4`:
 
 **Best Method**: Energy (AUROC: 0.7038) - but all methods struggle!
 
-| Metric | max_softmax | max_logit | energy |
-|--------|-------------|-----------|--------|
-| **AUROC** | 0.6779 | 0.6990 | **0.7038** 🏆 |
-| **FPR@95** | 0.9989 | 0.9999 | 0.9999 |
-| **AUPR** | 0.7875 | 0.8078 | **0.8117** 🏆 |
-| **Accuracy** | 72.80% | 75.22% | **75.58%** 🏆 |
+| Metric       | max_softmax | max_logit | energy     |
+|--------------|-------------|-----------|------------|
+| **AUROC**    | 0.6779      | 0.6990    | **0.7038** |
+| **FPR@95**   | 0.9989      | 0.9999    | 0.9999     |
+| **AUPR**     | 0.7875      | 0.8078    | **0.8117** |
+| **Accuracy** | 72.80%      | 75.22%    | **75.58%** |
 
 **Analysis**:
 - **Poor performance across all methods** (AUROC: 0.68-0.70)
@@ -179,28 +179,28 @@ Exercise 2 focuses on **adversarial attacks**: generating imperceptible perturba
 
 ### Method: FGSM (Fast Gradient Sign Method)
 | Epsilon | Clean Acc | Adv Acc | Attack Success |
-|:---|:---|:---|:---|
-| 0.007 | 85.10% | 69.40% | 16.40% |
-| 0.015 | 85.10% | 51.00% | 35.10% |
-| 0.031 | 85.10% | 25.00% | 61.60% |
+|:--------|:----------|:--------|:---------------|
+| 0.007   | 85.10%    | 69.40%  | 16.40%         |
+| 0.015   | 85.10%    | 51.00%  | 35.10%         |
+| 0.031   | 85.10%    | 25.00%  | 61.60%         |
 
 ---
 
 ### Method: BIM (Basic Iterative Method)
 | Epsilon | Clean Acc | Adv Acc | Attack Success |
-|:---|:---|:---|:---|
-| 0.007 | 85.10% | 68.60% | 17.40% |
-| 0.015 | 85.10% | 46.00% | 40.60% |
-| 0.031 | 85.10% | 12.60% | 75.00% |
+|:--------|:----------|:--------|:---------------|
+| 0.007   | 85.10%    | 68.60%  | 17.40%         |
+| 0.015   | 85.10%    | 46.00%  | 40.60%         |
+| 0.031   | 85.10%    | 12.60%  | 75.00%         |
 
 ---
 
 ### Method: PGD (Projected Gradient Descent)
 | Epsilon | Clean Acc | Adv Acc | Attack Success |
-|:---|:---|:---|:---|
-| 0.007 | 85.10% | 68.60% | 17.40% |
-| 0.015 | 85.10% | 46.00% | 41.00% |
-| 0.031 | 85.10% | 11.30% | 76.10% |
+|:--------|:----------|:--------|:---------------|
+| 0.007   | 85.10%    | 68.60%  | 17.40%         |
+| 0.015   | 85.10%    | 46.00%  | 41.00%         |
+| 0.031   | 85.10%    | 11.30%  | 76.10%         |
 
 ---
 
@@ -210,11 +210,11 @@ Exercise 2 focuses on **adversarial attacks**: generating imperceptible perturba
 
 **PGD > BIM > FGSM** (at higher epsilon values)
 
-| Epsilon | FGSM Success | BIM Success | PGD Success | Winner |
-|---------|--------------|-------------|-------------|--------|
-| 0.007 | 16.40% | 17.40% | 17.40% | BIM/PGD (tied) |
-| 0.015 | 35.10% | 40.60% | 41.00% | **PGD** |
-| 0.031 | 61.60% | 75.00% | 76.10% | **PGD** |
+| Epsilon | FGSM Success | BIM Success | PGD Success | Winner         |
+|---------|--------------|-------------|-------------|----------------|
+| 0.007   | 16.40%       | 17.40%      | 17.40%      | BIM/PGD (tied) |
+| 0.015   | 35.10%       | 40.60%      | 41.00%      | **PGD**        |
+| 0.031   | 61.60%       | 75.00%      | 76.10%      | **PGD**        |
 
 **Analysis**: 
 - At low epsilon (0.007), all methods perform similarly
@@ -227,9 +227,9 @@ Exercise 2 focuses on **adversarial attacks**: generating imperceptible perturba
 
 | Method | ε=0.007 | ε=0.015 | ε=0.031 | Increase (0.007→0.031) |
 |--------|---------|---------|---------|------------------------|
-| FGSM | 16.4% | 35.1% | 61.6% | **+45.2%** |
-| BIM | 17.4% | 40.6% | 75.0% | **+57.6%** |
-| PGD | 17.4% | 41.0% | 76.1% | **+58.7%** |
+| FGSM   | 16.4%   | 35.1%   | 61.6%   | **+45.2%**             |
+| BIM    | 17.4%   | 40.6%   | 75.0%   | **+57.6%**             |
+| PGD    | 17.4%   | 41.0%   | 76.1%   | **+58.7%**             |
 
 **Key Insight**: Doubling epsilon from 0.015 to 0.031 nearly doubles attack success for all methods!
 
@@ -294,9 +294,3 @@ python experiments/experiment_ood_detection.py \
     --score-method mse \
     --ood-dataset cifar100_subset
 ```
-
-**Note**: Requires autoencoder checkpoint at `checkpoints/autoencoder/best.pt`
-
-**Expected**: AUROC 0.80-0.85 (slightly worse than energy score but interpretable)
-
----
