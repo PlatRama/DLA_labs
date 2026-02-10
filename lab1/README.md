@@ -158,9 +158,9 @@ To train the student, the following procedure was followed:
 
 
 <div>
-  <img src="plots/lab1/distillation_plots/loss.png" alt="Img1" width="320">
-  <img src="plots/lab1/distillation_plots/val_loss.png" alt="Img1" width="320">
-  <img src="plots/lab1/distillation_plots/accuracy.png" alt="Img1" width="320">
+  <img src="../plots/lab1/distillation_plots/loss.png" alt="Img1" width="320">
+  <img src="../plots/lab1/distillation_plots/val_loss.png" alt="Img1" width="320">
+  <img src="../plots/lab1/distillation_plots/accuracy.png" alt="Img1" width="320">
 </div>
 
 
