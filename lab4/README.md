@@ -2,7 +2,8 @@
 
 Implementation of Lab4 exercises on Out-of-Distribution (OOD) detection and adversarial robustness. The lab covers OOD scoring methods, adversarial attacks, robust training, and autoencoder-based detection.
 
-## Project Structure
+<details>
+<summary><strong>Project Structure</strong></summary>
 
 ```
 lab4_rewrite/
@@ -24,6 +25,7 @@ lab4_rewrite/
 ├── plots/                     # Visualization plots
 └── README.md
 ```
+</details>
 
 ## Exercises
 
@@ -71,14 +73,14 @@ Exercise 1 implements **Out-of-Distribution (OOD) detection**: identifying sampl
 
  **Fake Dataset**
 <div>
-  <img src="plots/lab4/score_dist_fakedata_max_softmax.png" alt="Img1" width="450">
-  <img src="plots/lab4/roc_pr_fakedata_max_softmax.png" alt="Img1" width="450">
+  <img src="../plots/lab4/score_dist_fakedata_max_softmax.png" alt="Img1" width="450">
+  <img src="../plots/lab4/roc_pr_fakedata_max_softmax.png" alt="Img1" width="450">
 </div>
 
 **CIFAR-100 Subset**
 <div>
-  <img src="plots/lab4/score_dist_cifar100_subset_max_softmax.png" alt="Img1" width="450">
-  <img src="plots/lab4/roc_pr_cifar100_subset_max_softmax.png" alt="Img1" width="450">
+  <img src="../plots/lab4/score_dist_cifar100_subset_max_softmax.png" alt="Img1" width="450">
+  <img src="../plots/lab4/roc_pr_cifar100_subset_max_softmax.png" alt="Img1" width="450">
 </div>
 
 Each experiment generates plots in `./plots/lab4`:
